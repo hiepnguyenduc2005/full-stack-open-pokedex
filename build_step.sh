@@ -2,12 +2,8 @@
 
 echo "Build script"
 
-#!/bin/bash
-
-echo "Starting build script..."
-
 # Install dependencies
-npm ci  
+npm install 
 
 # Run linting
 npm run eslint
@@ -21,8 +17,8 @@ npm run test
 # Install Playwright and dependencies
 npx playwright install --with-deps
 
-# Start the application in the background
-npm start &
+# Start the application 
+npm run start-prod
 
 # Wait for the server to be ready (adjust time if needed)
 sleep 5
@@ -31,6 +27,5 @@ sleep 5
 npm run test:e2e
 
 echo "Build script completed successfully!"
-
 
 # add the commands here

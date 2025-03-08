@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-
   pull_request:
     branches: [main]
     types: [opened, synchronize]
@@ -13,7 +12,7 @@ jobs:
   simple_deployment_pipeline:
     timeout-minutes: 60
     runs-on: ubuntu-20.04
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -45,7 +44,7 @@ jobs:
     needs: [simple_deployment_pipeline]
     timeout-minutes: 60
     runs-on: ubuntu-20.04
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4  
@@ -54,4 +53,3 @@ jobs:
         uses: anothrNick/github-tag-action@1.71.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

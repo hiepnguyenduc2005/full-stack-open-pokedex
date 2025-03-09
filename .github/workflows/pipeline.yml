@@ -42,29 +42,19 @@ jobs:
       
       - name: Send success notification
         if: success()
-        uses: rjstone/discord-webhook-notify@v1.0.4
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          severity: info
-          details: Test Succeeded!
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          args: "✅Test Passed!"
 
       - name: Send failure notification
         if: failure()
-        uses: rjstone/discord-webhook-notify@v1.0.4
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          severity: error
-          details: Test Failed!
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-      
-      - name: Send cancelled notification
-        uses: rjstone/discord-webhook-notify@v1
-        if: cancelled()
-        with:
-            severity: warn
-            details: Test Cancelled!
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-
-
+          args: "❌Test Failed!"
 
   tag_release:
     needs: [simple_deployment_pipeline]
